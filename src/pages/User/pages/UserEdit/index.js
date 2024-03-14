@@ -3,32 +3,40 @@ import { useSearchParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 
-import { getUserDetail, getUserList } from '@/apis/user'
+import { getUserList } from '@/apis/user'
 import { useForm } from 'antd/es/form/Form'
-const onFinish = values => {
-  console.log('Success:', values)
-}
-const onFinishFailed = errorInfo => {
-  console.log('Failed:', errorInfo)
-}
 
 const UserEdit = () => {
   const [searchParams] = useSearchParams()
   const [userdetail, setUserDetail] = useState({})
   const id = searchParams.get('id')
-  //form
+
   const [form] = Form.useForm()
   useEffect(() => {
     ;(async () => {
-      const res = await getUserDetail(id, 'GET')
+      const res = await getUserList(id)
+      console.log(res)
+      const arr = res.data
 
-      setUserDetail(res.data[0])
+      // setUserDetail(res.data[0])
 
-      form.setFieldsValue(userdetail)
+      form.setFieldsValue(res.data[0])
     })()
   }, [])
 
-  //finish action
+  const onFinish = values => {
+    console.log('Success:', values)
+    ;(async () => {
+
+      const res = await getUserList(id, 'POST', values)
+      console.log(res)
+      window.location.reload()
+    })()
+
+  }
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo)
+  }
 
   return (
     <Form

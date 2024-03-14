@@ -31,12 +31,12 @@ const OrderEdit = () => {
       onFinishFailed={onFinishFailed}
       autoComplete="off">
       <Form.Item
-        label="First Name"
-        name="first_name"
+        label="id"
+        name="id"
         rules={[
           {
             required: true,
-            message: 'Please input your first_name!',
+            message: 'Please input your id!',
           },
         ]}>
         <Input />
